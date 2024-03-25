@@ -92,7 +92,7 @@ class UserController extends Controller
         $user = User::findOrFail($request->id);
         $user->tokens()->delete();
         $token = $user->createToken('kradworkz')->plainTextToken;
-        $id = $user->profile->agency->id;
+        $id = $user->profile->laboratory->id;
         $url = $request->url;
         $data = $id.' '.$url.' '.$token;
         return $this->simpleEncrypt($data);

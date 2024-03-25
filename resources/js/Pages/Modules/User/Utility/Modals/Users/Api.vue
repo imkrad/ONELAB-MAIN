@@ -1,5 +1,5 @@
 <template>
-    <b-modal v-model="showModal" header-class="p-3 bg-light" title="API Key" class="v-modal-custom" modal-class="zoomIn" centered no-close-on-backdrop>
+    <b-modal v-model="showModal" hide-footer header-class="p-3 bg-light" title="API Key" class="v-modal-custom" modal-class="zoomIn" centered no-close-on-backdrop>
         <div v-if="user">
             <div class="mt-1 mb-n3">
                  <div class="col-md-12 mt-2">
@@ -18,12 +18,14 @@
                             </div>
                     </div>
                 </div>
+                 <div class="col-md-12 mt-4 mb-4">
+                    <div class="d-grid gap-2" >
+                        <b-button @click="submit()" type="button" variant="success">Generate Key</b-button>
+                        <b-button @click="revoke()" type="button" variant="danger">Revoke Key</b-button>
+                    </div>
+                </div>
             </div>
         </div>
-        <template v-slot:footer>
-            <b-button @click="hide()" variant="light" block>Cancel</b-button>
-            <b-button @click="submit('ok')" variant="primary" :disabled="form.processing" block>Submit</b-button>
-        </template>
     </b-modal>
 </template>
 <script>
@@ -48,6 +50,7 @@ export default {
             axios.get(this.currentUrl + '/utility/users',{
                 params : {
                     id: this.user.id,
+                    url: this.currentUrl,
                     option: 'token'
                 }
             })
@@ -58,6 +61,20 @@ export default {
                 if (error.response.status == 422) {
                     this.errors = error.response.data.errors;
                 }
+            });
+        },
+        revoke(){
+             this.form = this.$inertia.form({
+                id: this.user.id,
+                type: 'revoke',
+                editable: true
+            })
+
+            this.form.put('/utility/users',{
+                preserveScroll: true,
+                onSuccess: (response) => {
+                    this.hide();
+                },
             });
         },
         toggle(){

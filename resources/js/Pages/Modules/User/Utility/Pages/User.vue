@@ -73,7 +73,7 @@
         </BCard>
     </form>
     <Api ref="api"/>
-    <Create ref="create"/>
+    <Create :laboratories="laboratories" ref="create"/>
     <Activation ref="activation"/>
 </div>
 </template>
@@ -92,6 +92,7 @@ export default {
         ])
     },
     components: { Create, Pagination, Activation, Api },
+    props: ['laboratories'],
     data(){
         return {
             currentUrl: window.location.origin,

@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Models\configuration;
+use App\Models\Configuration;
+use App\Models\Laboratory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,8 @@ class UtilityController extends Controller
             break;
             case 'users':
                 return inertia('Modules/User/Utility/Pages/User',[
-                    'configuration' =>  $this->configuration()
+                    'configuration' =>  $this->configuration(),
+                    'laboratories' => $this->laboratories()
                 ]);
             break;
             case 'roles':
@@ -57,5 +59,15 @@ class UtilityController extends Controller
     public function configuration(){
         $data = Configuration::where('id',1)->first();
         return $data;
+    }
+
+    public function laboratories(){
+        $types = Laboratory::with('member')->get()->map(function ($item) {
+            return [
+                'value' => $item->id,
+                'name' => $item->member->name
+            ];
+        });
+        return $types;
     }
 }

@@ -54,7 +54,7 @@
         </div>
 
         <div class="col-md-9" style="margin-top: 6px;">
-            <slot />
+            <slot :laboratories="laboratories" />
         </div>
     </div>
 </template>
@@ -70,5 +70,6 @@ import Backup from './Pages/Backup.vue';
 import PageHeader from '@/Shared/Components/PageHeader.vue';
 export default {
     components: { PageHeader, Overview, User, Role, Menu, System, Activity, Authentication, Backup },
+    props: ['laboratories']
 }
 </script>

@@ -46,7 +46,8 @@ class CustomerService
         }else{
             $request['name_id'] = $request->customer['value'];
         }
-        $customer = Customer::create($request->all());
+        $code = $this->generateCode($request->region_code);
+        $customer = Customer::create(array_merge($request->all(),['code' => $code, 'laboratory_id' => 14]));
         $customer->address()->create($request->except(['name','is_main','email','bussiness_id','industry_id','classification_id','contact_no','name_id','customer','has_branches']));
 
         return [
@@ -75,5 +76,11 @@ class CustomerService
             ['counts' => 20000,'name' => 'Total Spend', 'icon' => 'ri-hand-coin-fill', 'color' => 'info'],
         ];
         return $array;
+    }
+
+    public function generateCode($region){
+        $c = Customer::count();
+        $code = 'R1'.str_pad(($c+1), 5, '0', STR_PAD_LEFT);  
+        return $code;
     }
 }

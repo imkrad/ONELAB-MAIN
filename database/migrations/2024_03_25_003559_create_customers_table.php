@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->engine = 'InnoDB'; 
             $table->bigIncrements('id');
+            $table->string('code')->unique();
             $table->string('email')->unique();
             $table->string('name');
             $table->string('contact_no');
@@ -29,6 +30,8 @@ return new class extends Migration
             $table->foreign('name_id')->references('id')->on('customer_names')->onDelete('cascade');
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('laboratory_id')->unsigned()->index();
+            $table->foreign('laboratory_id')->references('id')->on('laboratories')->onDelete('cascade');
             $table->timestamps();
         });
     }

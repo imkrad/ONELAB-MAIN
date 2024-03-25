@@ -19,7 +19,13 @@ class UserProfile extends Model
         'gender',
         'mobile',
         'user_id',
+        'laboratory_id'
     ];
+
+    public function laboratory()
+    {
+        return $this->belongsTo('App\Models\Laboratory', 'laboratory_id', 'id');
+    }
 
     public function user()
     {

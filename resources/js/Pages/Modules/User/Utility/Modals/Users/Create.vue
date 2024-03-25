@@ -38,6 +38,14 @@
                                 <InputError :message="form.errors.mobile" />
                             </BCol>
                             <BCol lg="12"><hr class="text-muted mt-n1 mb-n3"/></BCol>
+                            <BCol lg="12" class="mt-1 mb-1">
+                                <InputLabel for="method" value="Laboratory"/>
+                                <Multiselect
+                                :options="laboratories" label="name" :searchable="true" 
+                                v-model="form.laboratory_id" :message="form.errors.laboratory_id" 
+                                placeholder="Select Laboratory" ref="multiselectL"/>
+                            </BCol>
+                            <BCol lg="12"><hr class="text-muted mt-n1 mb-n3"/></BCol>
                             <BCol lg="6"  style="margin-top: 13px; margin-bottom: -12px;">
                                <div class="row">
                                     <div class="col-md-4">
@@ -68,11 +76,13 @@
 </template>
 <script>
 import { useForm } from '@inertiajs/vue3';
+import Multiselect from '@/Shared/Components/Forms/Multiselect.vue';
 import InputError from '@/Shared/Components/Forms/InputError.vue';
 import InputLabel from '@/Shared/Components/Forms/InputLabel.vue';
 import TextInput from '@/Shared/Components/Forms/TextInput.vue';
 export default {
-    components: { InputError, InputLabel, TextInput },
+    components: { InputError, InputLabel, TextInput, Multiselect },
+    props: ['laboratories'],
     data(){
         return {
             currentUrl: window.location.origin,
@@ -84,7 +94,8 @@ export default {
                 email: null,
                 mobile: null,
                 gender: null,
-                profile_id: null
+                profile_id: null,
+                laboratory_id: null
             }),
             showModal: false,
             editable: false

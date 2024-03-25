@@ -4,6 +4,7 @@ namespace App\Services\Utility;
 
 use App\Models\Log;
 use App\Models\User;
+use App\Models\Laboratory;
 use App\Http\Resources\UserResource;
 
 class UserService
@@ -73,5 +74,15 @@ class UserService
             $result .= $data[$i] ^ $key[$i % strlen($key)];
         }
         return base64_encode($result);
+    }
+
+    public function laboratory_types(){
+        $types = Laboratory::with('member')->get()->map(function ($item) {
+            return [
+                'value' => $item->id,
+                'name' => $item->member->name
+            ];
+        });
+        return $types;
     }
 }

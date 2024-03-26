@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('list_testservices', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->string('code')->unique();
             $table->tinyInteger('laboratory_type')->unsigned()->index();
             $table->foreign('laboratory_type')->references('id')->on('list_dropdowns')->onDelete('cascade');
             $table->bigInteger('sampletype_id')->unsigned()->index();

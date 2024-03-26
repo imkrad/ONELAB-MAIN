@@ -10,7 +10,7 @@ class ListTestservice extends Model
     use HasFactory;
 
     protected $fillable = [
-        'laboratory_type','sampletype_id','testname_id','method_id','laboratory_id','is_active'
+        'code','laboratory_type','sampletype_id','testname_id','method_id','laboratory_id','is_active'
     ];
 
     public function sampletype()

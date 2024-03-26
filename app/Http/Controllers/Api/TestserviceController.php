@@ -8,6 +8,7 @@ use App\Models\ListTestservice;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\DefaultResource;
+use App\Http\Requests\NameRequest;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class TestserviceController extends Controller
@@ -31,8 +32,8 @@ class TestserviceController extends Controller
     public function list_names(Request $request){
         $keyword = $request->keyword;
         $type = $request->type;
-        $laboratory = $request->laboratory_type;
-
+        $laboratory = $request->laboratory;
+        
         $data = ListName::where('name', 'LIKE', "%{$keyword}%")->where('type_id',$type)->where('laboratory_type',$laboratory)->get()->map(function ($item) {
             return [
                 'value' => $item->id,
@@ -43,7 +44,7 @@ class TestserviceController extends Controller
     }
 
     public function list_methods(Request $request){
-        $laboratory = $request->laboratory_type;
+        $laboratory = $request->laboratory;
         $keyword = $request->keyword;
       
         $data = DefaultResource::collection(
@@ -73,16 +74,52 @@ class TestserviceController extends Controller
         $laboratory = $token->tokenable->profile->laboratory->id;
 
         $testservice = ListTestservice::create($request->all());
-       return $testservice;
+        return $testservice;
     }
 
-    public function store_names(Request $request){
+    public function store_names(NameRequest $request){
         $name = ListName::create($request->all());
-        return $name;
+        $data = Listname::findOrFail($name->id);
+        $data = [
+            'value' => $data->id,
+            'name' => $data->name,
+        ];
+        return $data;
     }
 
     public function store_methods(Request $request){
         $method = ListMethod::create($request->all());
-        return $method;
+        $data = ListMethod::with('method')->where('id',$method->id)->first();
+        return $data;
+    }
+
+    public function upload(Request $request){
+        $success = []; $failed = [];
+        $testservices = $request->testservices;
+
+        foreach($testservices as $test){
+            unset($test['id']);
+            unset($test['is_synced']);
+            $code = $test['code'];
+            $customer_data = ListTestservice::where('code',$code)->exists();
+            if($customer_data){
+                array_push($failed,$code);
+            }else{
+                $new_test = ListTestservice::create($test);
+
+                if($new_test){
+                    array_push($success,$code);
+                }else{
+                    array_push($failed,$code);
+                }
+            }
+        }
+
+        $array = [
+            'success' => $success,
+            'failed' => $failed
+        ];
+
+        return response()->json($array);
     }
 }

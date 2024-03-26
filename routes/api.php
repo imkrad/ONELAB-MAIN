@@ -15,11 +15,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::get('/methods', [App\Http\Controllers\Api\TestserviceController::class, 'methods']);
             Route::get('/testservices', [App\Http\Controllers\Api\TestserviceController::class, 'testservices']);
             Route::post('/testservices', [App\Http\Controllers\Api\TestserviceController::class, 'store']);
+            Route::post('/upload', [App\Http\Controllers\Api\TestserviceController::class, 'upload']);
         }); 
 
         Route::prefix('search')->group(function(){
-            Route::get('/names', [App\Http\Controllers\Api\TestserviceController::class, 'list_names']);
-            Route::get('/methods', [App\Http\Controllers\Api\TestserviceController::class, 'list_methods']);
+            Route::post('/names', [App\Http\Controllers\Api\TestserviceController::class, 'list_names']);
+            Route::post('/methods', [App\Http\Controllers\Api\TestserviceController::class, 'list_methods']);
         }); 
 
         Route::prefix('store')->group(function(){
@@ -30,7 +31,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::prefix('customers')->group(function(){
             Route::get('/names', [App\Http\Controllers\Api\CustomerController::class, 'names']);
-            Route::get('/{code}', [App\Http\Controllers\Api\CustomerController::class, 'customers']);
+            Route::post('/upload', [App\Http\Controllers\Api\CustomerController::class, 'upload']);
+            Route::get('/download', [App\Http\Controllers\Api\CustomerController::class, 'download']);
             Route::post('/', [App\Http\Controllers\Api\CustomerController::class, 'store']);
         });
     });

@@ -44,10 +44,10 @@ class DatabaseSeeder extends Seeder
         $this->call(MembersTableSeeder::class);
         $this->call(LaboratoriesTableSeeder::class);
         $this->call(AddressesTableSeeder::class);
-        $this->call(CustomerNamesTableSeeder::class);
-        $this->call(CustomersTableSeeder::class);
-        $this->call(ListNamesTableSeeder::class);
-        $this->call(ListMethodsTableSeeder::class);
-        $this->call(ListTestservicesTableSeeder::class);
+        // $this->call(CustomerNamesTableSeeder::class);
+        // $this->call(CustomersTableSeeder::class);
+        // $this->call(ListNamesTableSeeder::class);
+        // $this->call(ListMethodsTableSeeder::class);
+        // $this->call(ListTestservicesTableSeeder::class);
     }
 }

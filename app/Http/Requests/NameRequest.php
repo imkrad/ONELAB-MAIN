@@ -23,7 +23,7 @@ class NameRequest extends FormRequest
     {
         if($this->option == 'add'){
             return [
-                'name' => 'sometimes|required|string|unique:list_names,name,NULL,'.$this->id.',laboratory_type,'.$this->laboratory_type,
+                'name' => 'required|string|unique:list_names,name,NULL,'.$this->id.',laboratory_type,'.$this->laboratory_type,
             ];
         }
         return [];

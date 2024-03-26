@@ -17,7 +17,6 @@ class CustomerController extends Controller
 
         $data = Customer::with('address')->where('laboratory_id',$laboratory)->get();
         return $data;
-        
     }
 
     public function upload(Request $request){

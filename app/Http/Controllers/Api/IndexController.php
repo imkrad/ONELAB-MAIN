@@ -10,6 +10,8 @@ use App\Models\ListName;
 use App\Models\ListRole;
 use App\Models\ListMethod;
 use App\Models\ListDropdown;
+use App\Models\ListStatus;
+use App\Models\ListDiscount;
 use App\Models\LocationRegion;
 use App\Models\LocationProvince;
 use App\Models\LocationMunicipality;
@@ -52,7 +54,9 @@ class IndexController extends Controller
                 'Dropdowns' => ListDropdown::count(),
                 'Names' => ListName::count(),
                 'Methods' => ListMethod::count(),
-                'Roles' => ListRole::count()
+                'Roles' => ListRole::count(),
+                'Discounts' => ListDiscount::count(),
+                'Statuses' => ListStatus::count()
             ];
             return $array;
         }else{
@@ -68,6 +72,12 @@ class IndexController extends Controller
                 break;
                 case 'roles' :
                     $data = ListRole::get();
+                break;
+                case 'discounts' :
+                    $data = ListDiscount::get();
+                break;
+                case 'statuses' :
+                    $data = ListStatus::get();
                 break;
             }
             return $data;
